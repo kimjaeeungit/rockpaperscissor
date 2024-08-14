@@ -25,15 +25,50 @@ const choice = {
 };
 function App() {
   const [userSelect, setUserSelect] = useState(null);
-  const [comSelect, setComSelect] = useState(null);
+  const [computerSelect, setComputerSelect] = useState(null);
+  const [result, setResult] = useState('');
+  const [comResult, setComResult] = useState('');
   const play = (userChoice) => {
-    let comChoice = randomChoice();
+    let computerChoice = randomChoice();
     setUserSelect(choice[userChoice]);
-    setComSelect(comChoice);
+    setComputerSelect(computerChoice);
+    setResult(userJudgement(choice[userChoice], computerChoice)); //유저선택, 컴퓨터 선택 값
+    setComResult(comJudgement(choice[userChoice], computerChoice));
   };
+  const userJudgement = (user, computer) => {
+    console.log(user, computer);
+    // user == computer ->  tie
+    // user == "rock", computer == "scissors" -> user 이김
+    // user =="rock", computer == "paper" -> user 짐
+    // user == "scissors", computer =="paper" -> user 이김
+    // user == "scissors", computer =="rock" -> user 짐
+    // user == "paper", computer =="rock" -> user 이김
+    // user == "paper", computer =="scissors" -> user 짐
+
+    if (user.name == computer.name) {
+      return 'tie';
+    } else if (user.name == 'Rock')
+      return computer.name == 'Scissors' ? 'win' : 'lose';
+    else if (user.name == 'Scissors')
+      return computer.name == 'Paper' ? 'win' : 'lose';
+    else if (user.name == 'Paper')
+      return computer.name == 'Rock' ? 'win' : 'lose';
+  };
+  const comJudgement = (user, computer) => {
+    if (computer.name == user.name) {
+      return 'tie';
+    } else if (computer.name == 'Rock')
+      return user.name == 'Scissors' ? 'win' : 'lose';
+    else if (computer.name == 'Scissors')
+      return user.name == 'Paper' ? 'win' : 'lose';
+    else if (computer.name == 'Paper')
+      return user.name == 'Rock' ? 'win' : 'lose';
+  };
+
   // 컴퓨터 선택 랜덤값 뽑기
   const randomChoice = () => {
-    let itemArray = Object.keys(choice);
+    //Object.keys : 객체의 키값만 뽑아서 배열에 넣어주는 것
+    let itemArray = Object.keys(choice); //Array ["a","b","c"]
     let randomItem = Math.floor(Math.random() * itemArray.length);
     let final = itemArray[randomItem];
     return choice[final];
@@ -41,8 +76,8 @@ function App() {
   return (
     <div>
       <div className="main">
-        <Box title="you" item={userSelect} />
-        <Box title="computer" item={comSelect} />
+        <Box title="you" item={userSelect} result={result} />
+        <Box title="computer" item={computerSelect} result={comResult} />
       </div>
       <div className="main">
         <button onClick={() => play('scissors')}>가위</button>
