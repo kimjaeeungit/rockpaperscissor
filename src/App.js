@@ -24,16 +24,14 @@ const choice = {
   },
 };
 function App() {
-  const [userSelect, setUserSelect] = useState(null);
-  const [computerSelect, setComputerSelect] = useState(null);
-  const [result, setResult] = useState('');
-  const [comResult, setComResult] = useState('');
+  const [userSelect, setUserSelect] = useState(null); //유저가 선택한 값
+  const [computerSelect, setComputerSelect] = useState(null); // 컴퓨터가 랜덤으로 선택한 값
+  const [result, setResult] = useState(''); //유저 입장에서 유저랑 컴퓨터 겨룬 값 담기
   const play = (userChoice) => {
     let computerChoice = randomChoice();
     setUserSelect(choice[userChoice]);
     setComputerSelect(computerChoice);
     setResult(userJudgement(choice[userChoice], computerChoice)); //유저선택, 컴퓨터 선택 값
-    setComResult(comJudgement(choice[userChoice], computerChoice));
   };
   const userJudgement = (user, computer) => {
     console.log(user, computer);
@@ -54,16 +52,6 @@ function App() {
     else if (user.name == 'Paper')
       return computer.name == 'Rock' ? 'win' : 'lose';
   };
-  const comJudgement = (user, computer) => {
-    if (computer.name == user.name) {
-      return 'tie';
-    } else if (computer.name == 'Rock')
-      return user.name == 'Scissors' ? 'win' : 'lose';
-    else if (computer.name == 'Scissors')
-      return user.name == 'Paper' ? 'win' : 'lose';
-    else if (computer.name == 'Paper')
-      return user.name == 'Rock' ? 'win' : 'lose';
-  };
 
   // 컴퓨터 선택 랜덤값 뽑기
   const randomChoice = () => {
@@ -77,7 +65,7 @@ function App() {
     <div>
       <div className="main">
         <Box title="you" item={userSelect} result={result} />
-        <Box title="computer" item={computerSelect} result={comResult} />
+        <Box title="computer" item={computerSelect} result={result} />
       </div>
       <div className="main">
         <button onClick={() => play('scissors')}>가위</button>
